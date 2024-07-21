@@ -1,0 +1,131 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.granularControls,
+.topNControls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.selectedCriteria {
+  margin-bottom: 20px;
+}
+
+.selectedCriteria ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.selectedCriteria li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+}
+
+.tableContainer {
+  margin-bottom: 20px;
+  flex: 1;
+}
+
+.tableWrapper {
+  flex: 1;
+  margin: 10px;
+}
+
+.tablesContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.scrollableTable {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.table th {
+  background-color: #f2f2f2;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.tableHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.controls {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.input {
+  padding: 5px;
+  font-size: 14px;
+}
+
+.select {
+  padding: 5px;
+  font-size: 14px;
+}
+
+.button {
+  padding: 5px 10px;
+  font-size: 14px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #45a049;
+}
+
+.removeButton {
+  background-color: red;
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 3px 6px;
+  margin-left: 10px;
+}
+
+.removeButton:hover {
+  background-color: darkred;
+}
+
+.link {
+  color: #0070f3;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}

@@ -1,0 +1,63 @@
+/* FinancialSummary.module.css */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  text-align: center;
+  color: #343a40;
+  margin-bottom: 20px;
+}
+
+.dataItem {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.dataItem:last-child {
+  border-bottom: none;
+}
+
+.label {
+  font-weight: bold;
+  color: #495057;
+}
+
+.value {
+  color: #007bff;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+
+.controls label {
+  margin-right: 10px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.table th,
+.table td {
+  border: 1px solid #dee2e6;
+  padding: 8px;
+  text-align: left;
+}
+
+.table th {
+  background-color: #f8f9fa;
+  font-weight: bold;
+}

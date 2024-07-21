@@ -1,0 +1,125 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.controls label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.controls select,
+.controls input {
+  padding: 5px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.controls button {
+  padding: 10px 15px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.controls button:hover {
+  background-color: #0056b3;
+}
+
+.selectedCriteria {
+  margin-bottom: 20px;
+}
+
+.selectedCriteria h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.selectedCriteria ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.selectedCriteria li {
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #e9ecef;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.selectedCriteria button {
+  padding: 5px;
+  font-size: 12px;
+  border: none;
+  border-radius: 3px;
+  background-color: #dc3545;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.selectedCriteria button:hover {
+  background-color: #c82333;
+}
+
+.resultCount h2 {
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.table thead th {
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+  text-align: left;
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.table tbody td {
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+.table tbody tr:hover {
+  background-color: #e9ecef;
+  cursor: pointer;
+}
