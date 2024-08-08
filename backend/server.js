@@ -597,6 +597,147 @@ app.get('/api/stocks/top/:metric/:order/:limit', async (req, res) => {
   }
 });
 
+// moving average filtered by market cap
+
+// WITH filtered_stocks AS(
+//   SELECT 
+//         f.stock_id,
+//   f.market_cap
+//     FROM
+//         Fundamentals f
+//     WHERE
+//         f.market_cap > 100000000000  -- 10,000 crores in the smallest currency unit
+// ),
+//   recent_stock_data AS(
+//     SELECT 
+//         sd.stock_id,
+//     stk.ticker,
+//     sd.date,
+//     sd.close,
+//     ROW_NUMBER() OVER(PARTITION BY sd.stock_id ORDER BY sd.date DESC) AS rnk
+//     FROM 
+//         StockData sd
+// 	join stock stk on sd.stock_id = stk.id
+//     WHERE 
+//         sd.stock_id IN(SELECT stock_id FROM filtered_stocks)
+//   )
+// --SELECT
+// --COUNT(DISTINCT rsd.stock_id) AS stock_count
+// Select rsd.stock_id, rsd.ticker, rsd.close, ma.moving_average_200
+// FROM 
+//     recent_stock_data rsd
+// JOIN
+//   (
+//     SELECT 
+//             stock_id,
+//     AVG(close) AS moving_average_200
+//         FROM 
+//             StockData
+//         WHERE 
+//             date >= (CURRENT_DATE - INTERVAL '200 days')
+//         GROUP BY
+// stock_id
+//     ) ma ON rsd.stock_id = ma.stock_id
+// WHERE
+// rsd.rnk = 1 AND-- Ensures only the most recent closing price is considered
+// rsd.close < ma.moving_average_200;
+
+// percentiles
+// WITH latest_fundamentals AS(
+//   SELECT 
+//         stock_id,
+//   trailing_pe,
+//   date,
+//   ROW_NUMBER() OVER(PARTITION BY stock_id ORDER BY date DESC) AS rn
+//     FROM 
+//         Fundamentals
+//     WHERE 
+//         trailing_pe IS NOT NULL
+// ),
+//   RecentDates AS(
+//     SELECT DISTINCT date
+//     FROM latest_fundamentals
+//     ORDER BY date DESC
+//     LIMIT 10
+//   ),
+//     percentiles AS(
+//       SELECT 
+//         date,
+//       PERCENTILE_CONT(0.10) WITHIN GROUP(ORDER BY trailing_pe) AS p10,
+//       PERCENTILE_CONT(0.20) WITHIN GROUP(ORDER BY trailing_pe) AS p20,
+//       PERCENTILE_CONT(0.30) WITHIN GROUP(ORDER BY trailing_pe) AS p30,
+//       PERCENTILE_CONT(0.40) WITHIN GROUP(ORDER BY trailing_pe) AS p40,
+//       PERCENTILE_CONT(0.50) WITHIN GROUP(ORDER BY trailing_pe) AS p50,
+//       PERCENTILE_CONT(0.60) WITHIN GROUP(ORDER BY trailing_pe) AS p60,
+//       PERCENTILE_CONT(0.70) WITHIN GROUP(ORDER BY trailing_pe) AS p70,
+//       PERCENTILE_CONT(0.75) WITHIN GROUP(ORDER BY trailing_pe) AS p75,
+//       PERCENTILE_CONT(0.80) WITHIN GROUP(ORDER BY trailing_pe) AS p80,
+//       PERCENTILE_CONT(0.95) WITHIN GROUP(ORDER BY trailing_pe) AS p95,
+//       PERCENTILE_CONT(0.99) WITHIN GROUP(ORDER BY trailing_pe) AS p99
+//     FROM 
+//         latest_fundamentals
+//     WHERE
+//         date IN(SELECT date FROM RecentDates)
+//     GROUP BY 
+//         date
+//     ),
+//       counts AS(
+//         SELECT
+//         lf.date,
+//         COUNT(*) AS total_stocks,
+//         SUM(CASE WHEN lf.trailing_pe <= p.p10 THEN 1 ELSE 0 END) AS count_p10,
+//         SUM(CASE WHEN lf.trailing_pe <= p.p20 THEN 1 ELSE 0 END) AS count_p20,
+//         SUM(CASE WHEN lf.trailing_pe <= p.p30 THEN 1 ELSE 0 END) AS count_p30,
+//         SUM(CASE WHEN lf.trailing_pe <= p.p40 THEN 1 ELSE 0 END) AS count_p40,
+//         SUM(CASE WHEN lf.trailing_pe <= p.p50 THEN 1 ELSE 0 END) AS count_p50,
+//         SUM(CASE WHEN lf.trailing_pe <= p.p60 THEN 1 ELSE 0 END) AS count_p60,
+//         SUM(CASE WHEN lf.trailing_pe <= p.p70 THEN 1 ELSE 0 END) AS count_p70,
+//         SUM(CASE WHEN lf.trailing_pe <= p.p75 THEN 1 ELSE 0 END) AS count_p75,
+//         SUM(CASE WHEN lf.trailing_pe <= p.p80 THEN 1 ELSE 0 END) AS count_p80,
+//         SUM(CASE WHEN lf.trailing_pe <= p.p95 THEN 1 ELSE 0 END) AS count_p95,
+//         SUM(CASE WHEN lf.trailing_pe <= p.p99 THEN 1 ELSE 0 END) AS count_p99
+//     FROM
+//         latest_fundamentals lf
+//     JOIN
+//         percentiles p ON lf.date = p.date
+//     WHERE
+//         lf.date IN(SELECT date FROM RecentDates)
+//     GROUP BY
+//         lf.date, p.p10, p.p20, p.p30, p.p40, p.p50, p.p60, p.p70, p.p75, p.p80, p.p95, p.p99
+//       )
+// SELECT
+// p.date,
+//   p.p10,
+//   p.p20,
+//   p.p30,
+//   p.p40,
+//   p.p50,
+//   p.p60,
+//   p.p70,
+//   p.p75,
+//   p.p80,
+//   p.p95,
+//   p.p99,
+//   c.total_stocks,
+//   c.count_p10,
+//   c.count_p20,
+//   c.count_p30,
+//   c.count_p40,
+//   c.count_p50,
+//   c.count_p60,
+//   c.count_p70,
+//   c.count_p75,
+//   c.count_p80,
+//   c.count_p95,
+//   c.count_p99
+// FROM 
+//     percentiles p
+// JOIN
+//     counts c ON p.date = c.date
+// ORDER BY
+// p.date DESC;
+
+
 app.post('/api/stocks/top-n-individual', async (req, res) => {
   const { criteria, n, orderDirection = 'DESC' } = req.body;
 
